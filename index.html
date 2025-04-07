@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigiMax - Digital Marketing Agency</title>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .service-card:hover {
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+        .gradient-text {
+            background: linear-gradient(45deg, #2563eb, #4f46e5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .animated-bg {
+            background: linear-gradient(-45deg, #2563eb, #4f46e5, #2563eb);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .hover-zoom {
+            transition: transform 0.3s ease;
+        }
+        .hover-zoom:hover {
+            transform: scale(1.05);
+        }
+        .canvas-container {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        .service-page-hidden {
+            display: none;
+        }
+        .service-icon {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, #2563eb, #4f46e5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        .btn-primary {
+            background: linear-gradient(45deg, #2563eb, #4f46e5);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+        }
+        /* Loader */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #2563eb;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-white shadow-md z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <a href="#" class="text-2xl font-bold gradient-text flex items-center">
+                    <i class="bi bi-bezier2 mr-2"></i>DigiMax
+                </a>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="hover:text-blue-600 transition duration-300">Home</a>
+                    <a href="#about" class="hover:text-blue-600 transition duration-300">About</a>
+                    <div class="relative group">
+                        <a href="#services" class="hover:text-blue-600 transition duration-300 flex items-center">
+                            Services <i class="bi bi-chevron-down ml-1 text-sm"></i>
+                        </a>
+                        <div class="absolute left-0 mt-2 w-60 bg-white rounded-md shadow-lg py-2 z-10 hidden group-hover:block">
+                            <a href="#webdev" class="block px-4 py-2 hover:bg-blue-50">Web Development</a>
+                            <a href="#appdev" class="block px-4 py-2 hover:bg-blue-50">Web Application Development</a>
+                            <a href="#wordpress" class="block px-4 py-2 hover:bg-blue-50">WordPress Development</a>
+                            <a href="#ecommerce" class="block px-4 py-2 hover:bg-blue-50">E-commerce</a>
+                            <a href="#uiux" class="block px-4 py-2 hover:bg-blue-50">UI/UX Design</a>
+                            <a href="#digital" class="block px-4 py-2 hover:bg-blue-50">Digital Marketing</a>
+                            <a href="#social" class="block px-4 py-2 hover:bg-blue-50">Social Media Marketing</a>
+                            <a href="#seo" class="block px-4 py-2 hover:bg-blue-50">SEO Services</a>
+                            <a href="#content" class="block px-4 py-2 hover:bg-blue-50">Content Writing</a>
+                            <a href="#graphics" class="block px-4 py-2 hover:bg-blue-50">Graphics Design</a>
+                        </div>
+                    </div>
+                    <a href="#blog" class="hover:text-blue-600 transition duration-300">Blog</a>
+                    <a href="#careers" class="hover:text-blue-600 transition duration-300">Careers</a>
+                    <a href="#contact" class="hover:text-blue-600 transition duration-300">Contact</a>
+                </div>
+                <button class="md:hidden" onclick="toggleMenu()">
+                    <i class="bi bi-list text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white w-full">
+            <div class="px-4 py-2 space-y-3">
+                <a href="#home" class="block hover:text-blue-600 py-2">Home</a>
+                <a href="#about" class="block hover:text-blue-600 py-2">About</a>
+                <div class="py-2">
+                    <button onclick="toggleMobileSubmenu()" class="flex items-center justify-between w-full hover:text-blue-600">
+                        Services <i class="bi bi-chevron-down ml-1 text-sm"></i>
+                    </button>
+                    <div id="mobile-submenu" class="hidden pl-4 mt-2 space-y-2">
+                        <a href="#webdev" class="block py-1 hover:text-blue-600">Web Development</a>
+                        <a href="#appdev" class="block py-1 hover:text-blue-600">Web Application Development</a>
+                        <a href="#wordpress" class="block py-1 hover:text-blue-600">WordPress Development</a>
+                        <a href="#ecommerce" class="block py-1 hover:text-blue-600">E-commerce</a>
+                        <a href="#uiux" class="block py-1 hover:text-blue-600">UI/UX Design</a>
+                        <a href="#digital" class="block py-1 hover:text-blue-600">Digital Marketing</a>
+                        <a href="#social" class="block py-1 hover:text-blue-600">Social Media Marketing</a>
+                        <a href="#seo" class="block py-1 hover:text-blue-600">SEO Services</a>
+                        <a href="#content" class="block py-1 hover:text-blue-600">Content Writing</a>
+                        <a href="#graphics" class="block py-1 hover:text-blue-600">Graphics Design</a>
+                    </div>
+                </div>
+                <a href="#blog" class="block hover:text-blue-600 py-2">Blog</a>
+                <a href="#careers" class="block hover:text-blue-600 py-2">Careers</a>
+                <a href="#contact" class="block hover:text-blue-600 py-2">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="pt-24 pb-12 animated-bg">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="md:w-1/2 text-white">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6">Transform Your Digital Presence</h1>
+                    <p class="text-lg mb-8">Your one-stop solution for all digital marketing needs. We help businesses grow online with innovative strategies, 3D animations, and cutting-edge technology.</p>
+                    <div class="flex flex-wrap gap-4">
+                        <button class="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-blue-50 transition duration-300 shadow-lg hover:shadow-xl">Get Started</button>
+                        <button class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white/10 transition duration-300">Watch Demo</button>
+                    </div>
+                </div>
+                <div class="md:w-1/2 mt-8 md:mt-0">
+                    <div id="3d-animation" class="rounded-xl overflow-hidden shadow-2xl"></div>
+                </div>
+            </div>
+            <div class="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="p-4 bg-white/20 backdrop-blur-sm rounded-lg">
+                    <h3 class="text-white font-bold text-4xl">500+</h3>
+                    <p class="text-white/80">Happy Clients</p>
+                </div>
+                <div class="p-4 bg-white/20 backdrop-blur-sm rounded-lg">
+                    <h3 class="text-white font-bold text-4xl">1000+</h3>
+                    <p class="text-white/80">Projects Completed</p>
+                </div>
+                <div class="p-4 bg-white/20 backdrop-blur-sm rounded-lg">
+                    <h3 class="text-white font-bold text-4xl">50+</h3>
+                    <p class="text-white/80">Team Members</p>
+                </div>
+                <div class="p-4 bg-white/20 backdrop-blur-sm rounded-lg">
+                    <h3 class="text-white font-bold text-4xl">10+</h3>
+                    <p class="text-white/80">Years Experience</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row gap-12 items-center">
+                <div class="md:w-1/2">
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Team working together" class="rounded-lg shadow-xl w-full hover-zoom">
+                </div>
+                <div class="md:w-1/2">
+                    <h2 class="text-3xl font-bold mb-6 gradient-text">About DigiMax</h2>
+                    <p class="text-gray-700 mb-6">DigiMax is a full-service digital marketing agency committed to delivering innovative and result-oriented solutions. With a team of skilled professionals, we help businesses establish a strong online presence and achieve their digital marketing goals.</p>
+                    <p class="text-gray-700 mb-6">Our expertise spans across web development, UI/UX design, SEO, content writing, 3D animations, and comprehensive digital marketing strategies. We take pride in our client-focused approach, ensuring every project is tailored to meet specific business requirements.</p>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-8">
+                        <div class="flex items-center">
+                            <i class="bi bi-check-circle-fill text-blue-600 mr-2"></i>
+                            <span>Experienced Team</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="bi bi-check-circle-fill text-blue-600 mr-2"></i>
+                            <span>Innovative Approach</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="bi bi-check-circle-fill text-blue-600 mr-2"></i>
+                            <span>Custom Solutions</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="bi bi-check-circle-fill text-blue-600 mr-2"></i>
+                            <span>Result-Oriented</span>
+                        </div>
+                    </div>
+                    <button class="bg-blue-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-blue-700 transition duration-300 btn-primary">
+                        Learn More About Us
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Overview Section -->
+    <section id="services" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl font-bold mb-6 gradient-text">Our Services</h2>
+                <p class="text-gray-600">We offer a comprehensive range of digital services to help your business thrive in the online world. From stunning web development to strategic digital marketing, we've got you covered.</p>
+            </div>
+
+            <div id="services-overview" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Web Development -->
+                <div id="webdev-card" class="service-card bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+                    <i class="bi bi-code-slash text-4xl text-blue-600"></i>
+                    <h3 class="text-xl font-semibold mt-4">Web Development</h3>
+                    <p class="mt-2 text-gray-600">Custom web solutions tailored to your business needs with responsive design.</p>
+                    <button onclick="showServicePage('webdev')" class="mt-4 text-blue-600 font-semibold flex items-center">
+                        Learn More <i class="bi bi-arrow-right ml-2"></i>
+                    </button>
+                </div>
+
+                <!-- Web Application Development -->
+                <div id="appdev-card" class="service-card bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+                    <i class="bi bi-window-desktop text-4xl text-blue-600"></i>
+                    <h3 class="text-xl font-semibold mt-4">Web Application Development</h3>
+                    <p class="mt-2 text-gray-600">Powerful web applications with seamless user experience.</p>
+                    <button onclick="showServicePage('appdev')" class="mt-4 text-blue-600 font-semibold flex items-center">
+                        Learn More <i class="bi bi-arrow-right ml-2"></i>
+                    </button>
+                </div>
+
+                <!-- WordPress Development -->
+                <div id="wordpress-card" class="service-card bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+                    <i class="bi bi-wordpress text-4xl text-blue-600"></i>
+                    <h3 class="text-xl font-semibold mt-4">WordPress Development</h3>
+                    <p class="mt-2 text-gray-600">Professional WordPress websites and themes that stand out.</p>
+                    <button onclick="showServicePage('wordpress')" class="mt-4 text-blue-600 font-semibold flex items-center">
+                        Learn More <i class="bi bi-arrow-right ml-2"></i>
+                    </button>
+                </div>
+
+                <!-- E-commerce -->
+                <div id="ecommerce-card" class="service-card bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+                    <i class="bi bi-cart4 text-4xl text-blue-600"></i>
+                    <h3 class="text-xl font-semibold mt-4">E-commerce</h3>
+                    <p class="mt-2 text-gray-600">Online store development and optimization for sales growth.</p>
+                    <button onclick="showServicePage('ecommerce')" class="mt-4 text-blue-600 font-semibold flex items-center">
+                        Learn More <i class="bi bi-arrow-right ml-2"></i>
+                    </button>
+                </div>
+
+                <!-- UI/UX Design -->
+                <div id="uiux-card" class="service-card bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+                    <i class="bi bi-palette text-4xl text-blue-600"></i>
+                    <h3 class="text-xl font-semibold mt-4">UI/UX Design</h3>
+                    <p class="mt-2 text-gray-600">User-centered design solutions that enhance experience.</p>
+                    <button onclick="showServicePage('uiux')" class="mt-4 text-blue-600 font-semibold flex items-center">
+                        Learn More <i class="bi bi-arrow-right ml-2"></i>
+                    </button>
+                </div>
+
+                <!-- Digital Marketing -->
+                <div id="digital-card" class="service-card bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+                    <i class="bi bi-graph-up text-4xl text-blue-600"></i>
+                    <h3 class="text-xl font-semibold mt-4">Digital Marketing</h3>
+                    <p class="mt-2 text-gray-600">Comprehensive digital marketing strategies for growth.</p>
+                    <button onclick="showServicePage('digital')" class="mt-4 text-blue-600 font-semibold flex items-center">
+                        Learn More <i class="bi bi-arrow-right ml-2"></i>
+                    </button>
+                </div>
+
+                <!-- Social Media Marketing -->
+                <div id="social-card" class="service-card bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+                    <i class="bi bi-share text-4xl text-blue-600"></i>
+                    <h3 class="text-xl font-semibold mt-4">Social Media Marketing</h3>
+                    <p class="mt-2 text-gray-600">Engage audiences and build brand presence on social platforms.</p>
+                    <button onclick="showServicePage('social')" class="mt-4 text-blue-600 font-semibold flex items-center">
+                        Learn More <i class="bi bi-arrow-right ml-2"></i>
+                    </button>
+                </div>
+
+                <!-- SEO Services -->
+                <div id="seo-card" class="service-card bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+                    <i class="bi bi-search text-4xl text-blue-600"></i>
+                    <h3 class="text-xl font-semibold mt-4">SEO Services</h3>
+                    <p class="mt-2 text-gray-600">Search engine optimization for better visibility and traffic.</p>
+                    <button onclick="showServicePage('seo')" class="mt-4 text-blue-600 font-semibold flex items-center">
+                        Learn More <i class="bi bi-arrow-right ml-2"></i>
+                    </button>
+                </div>
+
+                <!-- Content Writing -->
+                <div id="content-card" class="service-card bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+                    <i class="bi bi-pencil-square text-4xl text-blue-600"></i>
+                    <h3 class="text-xl font-semibold mt-4">Content Writing</h3>
+                    <p class="mt-2 text-gray-600">Engaging content that connects with your audience.</p>
+                    <button onclick="showServicePage('content')" class="mt-4 text-blue-600 font-semibold flex items-center">
+                        Learn More <i class="bi bi-arrow-right ml-2"></i>
+                    </button>
+                </div>
+
+                <!-- Graphics Design -->
+                <div id="graphics-card" class="service-card bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+                    <i class="bi bi-vector-pen text-4xl text-blue-600"></i>
+                    <h3 class="text-xl font-semibold mt-4">Graphics Design</h3>
+                    <p class="mt-2 text-gray-600">Stunning visual designs that capture attention.</p>
+                    <button onclick="showServicePage('graphics')" class="mt-4 text-blue-600 font-semibold flex items-center">
+                        Learn More <i class="bi bi-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Individual Service Pages (Hidden by Default) -->
+            <div id="service-pages">
+                <!-- Web Development Service Page -->
+                <div id="webdev-page" class="service-page-hidden mt-8 bg-white p-8 rounded-lg shadow-lg">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-bold gradient-text">Web Development Services</h3>
+                        <button onclick="hideServicePage()" class="text-gray-500 hover:text-gray-700">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <p class="text-gray-600 mb-4">Our expert web development team crafts custom websites that are responsive, fast-loading, and optimized for conversions. We use the latest technologies to ensure your website stands out from the competition.</p>
+                            <ul class="space-y-2 mb-6">
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Responsive website development for all devices</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Custom website design and development</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>E-commerce website development</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Landing page design and development</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Website maintenance and support</span>
+                                </li>
+                            </ul>
+                            <button class="bg-blue-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-700 transition duration-300">Request a Quote</button>
+                        </div>
+                        <div class="canvas-container">
+                            <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_iorpbol0.json" background="transparent" speed="1" loop autoplay></lottie-player>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Web Application Development Service Page -->
+                <div id="appdev-page" class="service-page-hidden mt-8 bg-white p-8 rounded-lg shadow-lg">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-bold gradient-text">Web Application Development</h3>
+                        <button onclick="hideServicePage()" class="text-gray-500 hover:text-gray-700">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <p class="text-gray-600 mb-4">We build powerful, scalable web applications that solve complex business problems. Our experienced developers use modern frameworks and technologies to create applications that are both robust and user-friendly.</p>
+                            <ul class="space-y-2 mb-6">
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Custom web application development</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Progressive Web Applications (PWA)</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>SaaS application development</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>API development and integration</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Database design and management</span>
+                                </li>
+                            </ul>
+                            <button class="bg-blue-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-700 transition duration-300">Request a Quote</button>
+                        </div>
+                        <div class="canvas-container">
+                            <lottie-player src="https://assets2.lottiefiles.com/private_files/lf30_wqypnpu5.json" background="transparent" speed="1" loop autoplay></lottie-player>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- WordPress Development Service Page -->
+                <div id="wordpress-page" class="service-page-hidden mt-8 bg-white p-8 rounded-lg shadow-lg">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-bold gradient-text">WordPress Development</h3>
+                        <button onclick="hideServicePage()" class="text-gray-500 hover:text-gray-700">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <p class="text-gray-600 mb-4">Our WordPress development team creates custom, high-performance WordPress websites that are easy to manage and update. We build sites that are secure, optimized for search engines, and designed to engage your visitors.</p>
+                            <ul class="space-y-2 mb-6">
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Custom WordPress theme development</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>WordPress plugin development</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>WordPress website migration</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>WordPress maintenance and support</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>WooCommerce development</span>
+                                </li>
+                            </ul>
+                            <button class="bg-blue-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-700 transition duration-300">Request a Quote</button>
+                        </div>
+                        <div class="canvas-container">
+                            <lottie-player src="https://assets3.lottiefiles.com/private_files/lf30_qnpfmtnj.json" background="transparent" speed="1" loop autoplay></lottie-player>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- E-commerce Service Page -->
+                <div id="ecommerce-page" class="service-page-hidden mt-8 bg-white p-8 rounded-lg shadow-lg">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-bold gradient-text">E-commerce Development</h3>
+                        <button onclick="hideServicePage()" class="text-gray-500 hover:text-gray-700">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <p class="text-gray-600 mb-4">We create custom e-commerce solutions that help businesses sell products online effectively. Our e-commerce websites are designed to provide seamless shopping experiences, secure payment processing, and efficient order management.</p>
+                            <ul class="space-y-2 mb-6">
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Custom e-commerce website development</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>WooCommerce development</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Shopify store development</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Payment gateway integration</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>E-commerce SEO and marketing</span>
+                                </li>
+                            </ul>
+                            <button class="bg-blue-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-700 transition duration-300">Request a Quote</button>
+                        </div>
+                        <div class="canvas-container">
+                            <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_crwpngvr.json" background="transparent" speed="1" loop autoplay></lottie-player>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- UI/UX Design Service Page -->
+                <div id="uiux-page" class="service-page-hidden mt-8 bg-white p-8 rounded-lg shadow-lg">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-bold gradient-text">UI/UX Design</h3>
+                        <button onclick="hideServicePage()" class="text-gray-500 hover:text-gray-700">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <p class="text-gray-600 mb-4">Our UI/UX design team creates intuitive, engaging user experiences that keep visitors coming back. We focus on user-centered design principles to create interfaces that are both beautiful and functional.</p>
+                            <ul class="space-y-2 mb-6">
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>User experience (UX) design</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>User interface (UI) design</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Wireframing and prototyping</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Responsive design</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Usability testing</span>
+                                </li>
+                            </ul>
+                            <button class="bg-blue-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-700 transition duration-300">Request a Quote</button>
+                        </div>
+                        <div class="canvas-container">
+                            <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_bdlbivkh.json" background="transparent" speed="1" loop autoplay></lottie-player>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Digital Marketing Service Page -->
+                <div id="digital-page" class="service-page-hidden mt-8 bg-white p-8 rounded-lg shadow-lg">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-bold gradient-text">Digital Marketing</h3>
+                        <button onclick="hideServicePage()" class="text-gray-500 hover:text-gray-700">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <p class="text-gray-600 mb-4">Our digital marketing experts develop comprehensive strategies to help your business grow online. We use data-driven approaches to increase your online visibility, drive traffic, and convert visitors into customers.</p>
+                            <ul class="space-y-2 mb-6">
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Search Engine Optimization (SEO)</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Pay-Per-Click (PPC) advertising</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Social Media Marketing</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Email Marketing</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Content Marketing</span>
+                                </li>
+                            </ul>
+                            <button class="bg-blue-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-700 transition duration-300">Request a Quote</button>
+                        </div>
+                        <div class="canvas-container">
+                            <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_UgZWvP.json" background="transparent" speed="1" loop autoplay></lottie-player>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Media Marketing Service Page -->
+                <div id="social-page" class="service-page-hidden mt-8 bg-white p-8 rounded-lg shadow-lg">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-bold gradient-text">Social Media Marketing</h3>
+                        <button onclick="hideServicePage()" class="text-gray-500 hover:text-gray-700">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <p class="text-gray-600 mb-4">Our social media marketing team helps businesses build and maintain a strong presence on social platforms. We create engaging content, manage communities, and run targeted advertising campaigns to reach your ideal audience.</p>
+                            <ul class="space-y-2 mb-6">
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Social media strategy development</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Content creation and publishing</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Community management</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Social media advertising</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Analytics and reporting</span>
+                                </li>
+                            </ul>
+                            <button class="bg-blue-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-700 transition duration-300">Request a Quote</button>
+                        </div>
+                        <div class="canvas-container">
+                            <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_zwn6fmnu.json" background="transparent" speed="1" loop autoplay></lottie-player>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEO Services Page -->
+                <div id="seo-page" class="service-page-hidden mt-8 bg-white p-8 rounded-lg shadow-lg">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-bold gradient-text">SEO Services</h3>
+                        <button onclick="hideServicePage()" class="text-gray-500 hover:text-gray-700">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <p class="text-gray-600 mb-4">Our SEO experts help improve your website's visibility in search engine results. We use proven techniques to optimize your website, improve your rankings, and drive more qualified traffic to your site.</p>
+                            <ul class="space-y-2 mb-6">
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Keyword research and analysis</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>On-page SEO optimization</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Off-page SEO and link building</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Technical SEO audits and fixes</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Local SEO for businesses</span>
+                                </li>
+                            </ul>
+                            <button class="bg-blue-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-700 transition duration-300">Request a Quote</button>
+                        </div>
+                        <div class="canvas-container">
+                            <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_wgocla1s.json" background="transparent" speed="1" loop autoplay></lottie-player>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Writing Service Page -->
+                <div id="content-page" class="service-page-hidden mt-8 bg-white p-8 rounded-lg shadow-lg">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-bold gradient-text">Content Writing</h3>
+                        <button onclick="hideServicePage()" class="text-gray-500 hover:text-gray-700">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <p class="text-gray-600 mb-4">Our content writers create engaging, SEO-friendly content that resonates with your target audience. From blog posts to website copy, we craft content that informs, persuades, and converts.</p>
+                            <ul class="space-y-2 mb-6">
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Website copywriting</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Blog post writing</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>SEO content writing</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Email newsletter content</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Social media content creation</span>
+                                </li>
+                            </ul>
+                            <button class="bg-blue-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-700 transition duration-300">Request a Quote</button>
+                        </div>
+                        <div class="canvas-container">
+                            <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_9ths7vog.json" background="transparent" speed="1" loop autoplay></lottie-player>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Graphics Design Service Page -->
+                <div id="graphics-page" class="service-page-hidden mt-8 bg-white p-8 rounded-lg shadow-lg">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-bold gradient-text">Graphics Design</h3>
+                        <button onclick="hideServicePage()" class="text-gray-500 hover:text-gray-700">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <p class="text-gray-600 mb-4">Our graphic designers create visually stunning assets that communicate your brand's message effectively. From logos to marketing materials, we design graphics that capture attention and leave a lasting impression.</p>
+                            <ul class="space-y-2 mb-6">
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Logo design and branding</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Social media graphics</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Print design (brochures, business cards)</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Banner and ad design</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="bi bi-check-circle-fill text-blue-600 mr-2 mt-1"></i>
+                                    <span>Infographic design</span>
+                                </li>
+                            </ul>
+                            <button class="bg-blue-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-700 transition duration-300">Request a Quote</button>
+                        </div>
+                        <div class="canvas-container">
+                            <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_2glqweqs.json" background="transparent" speed="1" loop autoplay></lottie-player>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3D Animation Showcase -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl font-bold mb-6 gradient-text">3D Animation Services</h2>
+                <p class="text-gray-600">We create stunning 3D animations that bring your ideas to life. From product visualizations to explainer videos, our animations help you communicate complex concepts clearly and engagingly.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 rounded-lg overflow-hidden shadow-lg hover-zoom">
+                    <div class="h-56 bg-blue-600" id="animation-1"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Product Visualization</h3>
+                        <p class="text-gray-600">Showcase your products with stunning 3D animations that highlight features and functionality.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 rounded-lg overflow-hidden shadow-lg hover-zoom">
+                    <div class="h-56 bg-indigo-600" id="animation-2"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Explainer Videos</h3>
+                        <p class="text-gray-600">Explain complex concepts with engaging 3D animated explainer videos.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 rounded-lg overflow-hidden shadow-lg hover-zoom">
+                    <div class="h-56 bg-purple-600" id="animation-3"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Character Animation</h3>
+                        <p class="text-gray-600">Create memorable brand mascots and characters with our 3D animation services.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <button class="bg-blue-600 text-white px-8 py-3 rounded-full font-semibold btn-primary">
+                    View Animation Portfolio
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl font-bold mb-6 gradient-text">Latest Blog Posts</h2>
+                <p class="text-gray-600">Stay updated with the latest trends and insights in digital marketing, web development, and 3D animation.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 hover-zoom">
+                    <img src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="SEO Strategies Blog" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <div class="text-sm text-blue-600 mb-2">SEO • June 15, 2024</div>
+                        <h3 class="text-xl font-semibold mb-2">10 SEO Strategies That Actually Work in 2024</h3>
+                        <p class="text-gray-600 mb-4">Learn about the most effective SEO strategies that can help your business rank higher in search results.</p>
+                        <a href="#" class="text-blue-600 font-semibold flex items-center">
+                            Read More <i class="bi bi-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 hover-zoom">
+                    <img src="https://images.unsplash.com/photo-1551033406-611cf9a28f67?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="3D Animation Blog" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <div class="text-sm text-blue-600 mb-2">3D Animation • May 28, 2024</div>
+                        <h3 class="text-xl font-semibold mb-2">How 3D Animation Can Boost Your Marketing Strategy</h3>
+                        <p class="text-gray-600 mb-4">Discover how incorporating 3D animation into your marketing can increase engagement and conversions.</p>
+                        <a href="#" class="text-blue-600 font-semibold flex items-center">
+                            Read More <i class="bi bi-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 hover-zoom">
+                    <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Web Development Blog" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <div class="text-sm text-blue-600 mb-2">Web Development • April 10, 2024</div>
+                        <h3 class="text-xl font-semibold mb-2">Top Web Development Trends for 2024 and Beyond</h3>
+                        <p class="text-gray-600 mb-4">Stay ahead of the competition with these emerging web development trends and technologies.</p>
+                        <a href="#" class="text-blue-600 font-semibold flex items-center">
+                            Read More <i class="bi bi-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#" class="bg-blue-600 text-white px-8 py-3 rounded-full font-semibold btn-primary">
+                    View All Blog Posts
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Careers Section -->
+    <section id="careers" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl font-bold mb-6 gradient-text">Join Our Team</h2>
+                <p class="text-gray-600">We're always looking for talented individuals to join our dynamic team. Check out our current openings and apply today!</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                    <h3 class="text-xl font-semibold mb-2">Senior Web Developer</h3>
+                    <div class="flex items-center text-gray-600 mb-4">
+                        <i class="bi bi-geo-alt mr-2"></i> Remote
+                        <span class="mx-2">•</span>
+                        <i class="bi bi-clock mr-2"></i> Full-time
+                    </div>
+                    <p class="text-gray-600 mb-4">We're looking for an experienced web developer with strong skills in JavaScript, React, and Node.js to join our development team.</p>
+                    <button class="bg-blue-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-700 transition duration-300">Apply Now</button>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                    <h3 class="text-xl font-semibold mb-2">Digital Marketing Specialist</h3>
+                    <div class="flex items-center text-gray-600 mb-4">
+                        <i class="bi bi-geo-alt mr-2"></i> Remote
+                        <span class="mx-2">•</span>
+                        <i class="bi bi-clock mr-2"></i> Full-time
+                    </div>
+                    <p class="text-gray-600 mb-4">Join our marketing team as a digital marketing specialist. Experience with SEO, SEM, and social media marketing required.</p>
+                    <button class="bg-blue-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-700 transition duration-300">Apply Now</button>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                    <h3 class="text-xl font-semibold mb-2">3D Animation Artist</h3>
+                    <div class="flex items-center text-gray-600 mb-4">
+                        <i class="bi bi-geo-alt mr-2"></i> Remote
+                        <span class="mx-2">•</span>
+                        <i class="bi bi-clock mr-2"></i> Full-time
+                    </div>
+                    <p class="text-gray-600 mb-4">We're seeking a talented 3D animation artist with experience in Blender, Maya, or similar tools to create engaging animations for our clients.</p>
+                    <button class="bg-blue-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-700 transition duration-300">Apply Now</button>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                    <h3 class="text-xl font-semibold mb-2">UI/UX Designer</h3>
+                    <div class="flex items-center text-gray-600 mb-4">
+                        <i class="bi bi-geo-alt mr-2"></i> Remote
+                        <span class="mx-2">•</span>
+                        <i class="bi bi-clock mr-2"></i> Full-time
+                    </div>
+                    <p class="text-gray-600 mb-4">Join our design team to create beautiful, user-centered interfaces. Proficiency in Figma, Adobe XD, and other design tools required.</p>
+                    <button class="bg-blue-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-700 transition duration-300">Apply Now</button>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <p class="text-gray-600 mb-4">Don't see a position that matches your skills?</p>
+                <button class="bg-blue-600 text-white px-8 py-3 rounded-full font-semibold btn-primary">
+                    Send Open Application
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl font-bold mb-6 gradient-text">What Our Clients Say</h2>
+                <p class="text-gray-600">Don't just take our word for it. Here's what our satisfied clients have to say about our services.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                    <div class="flex items-center mb-6">
+                        <div class="text-yellow-400 flex">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-6">"DigiMax completely transformed our online presence. Their web development and SEO services have significantly increased our website traffic and conversions. Highly recommended!"</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                            <span class="text-blue-600 font-bold">JD</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">John Doe</h4>
+                            <p class="text-gray-600 text-sm">CEO, TechStart Inc.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                    <div class="flex items-center mb-6">
+                        <div class="text-yellow-400 flex">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-6">"The 3D animations DigiMax created for our product launch were outstanding. They captured our vision perfectly and helped us showcase our products in a unique way. Great work!"</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                            <span class="text-blue-600 font-bold">JS</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">Jane Smith</h4>
+                            <p class="text-gray-600 text-sm">Marketing Director, Innovate Co.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                    <div class="flex items-center mb-6">
+                        <div class="text-yellow-400 flex">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-6">"DigiMax's digital marketing team significantly improved our social media presence. Their strategic approach and creative content have helped us connect with our audience in meaningful ways."</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                            <span class="text-blue-600 font-bold">RJ</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">Robert Johnson</h4>
+                            <p class="text-gray-600 text-sm">Owner, Fitness First</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 gradient-text">Get In Touch</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="bg-gray-50 p-8 rounded-lg shadow-lg">
+                    <h3 class="text-2xl font-semibold mb-6">Contact Information</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <i class="bi bi-geo-alt-fill text-blue-600 text-xl mr-4 mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold">Address</h4>
+                                <p class="text-gray-600">123 Digital Avenue, Tech Park, Silicon Valley, CA 94025</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="bi bi-envelope-fill text-blue-600 text-xl mr-4 mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold">Email</h4>
+                                <p class="text-gray-600">info@digimaxagency.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="bi bi-telephone-fill text-blue-600 text-xl mr-4 mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold">Phone</h4>
+                                <p class="text-gray-600">+1 (555) 123-4567</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <h3 class="text-xl font-semibold mb-4">Follow Us</h3>
+                        <div class="flex space-x-4">
+                            <a href="#" class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center hover:bg-blue-700 transition duration-300">
+                                <i class="bi bi-facebook"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 bg-blue-400 text-white rounded-full flex items-center justify-center hover:bg-blue-500 transition duration-300">
+                                <i class="bi bi-twitter"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 bg-pink-600 text-white rounded-full flex items-center justify-center hover:bg-pink-700 transition duration-300">
+                                <i class="bi bi-instagram"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 bg-blue-800 text-white rounded-full flex items-center justify-center hover:bg-blue-900 transition duration-300">
+                                <i class="bi bi-linkedin"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <form id="contactForm" class="space-y-6" onsubmit="handleSubmit(event)">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="block text-gray-700 mb-2">Full Name</label>
+                                <input type="text" id="name" placeholder="Your Name" required class="w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-600">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-gray-700 mb-2">Email Address</label>
+                                <input type="email" id="email" placeholder="Your Email" required class="w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-600">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-gray-700 mb-2">Phone Number</label>
+                            <input type="tel" id="phone" placeholder="Your Phone" class="w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-600">
+                        </div>
+                        <div>
+                            <label for="service" class="block text-gray-700 mb-2">Service Interested In</label>
+                            <select id="service" class="w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-600">
+                                <option value="">Select a Service</option>
+                                <option value="Web Development">Web Development</option>
+                                <option value="Web Application Development">Web Application Development</option>
+                                <option value="WordPress Development">WordPress Development</option>
+                                <option value="E-commerce">E-commerce</option>
+                                <option value="UI/UX Design">UI/UX Design</option>
+                                <option value="Digital Marketing">Digital Marketing</option>
+                                <option value="Social Media Marketing">Social Media Marketing</option>
+                                <option value="SEO Services">SEO Services</option>
+                                <option value="Content Writing">Content Writing</option>
+                                <option value="Graphics Design">Graphics Design</option>
+                                <option value="3D Animation">3D Animation</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="message" class="block text-gray-700 mb-2">Your Message</label>
+                            <textarea id="message" placeholder="Your Message" rows="5" required class="w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-600"></textarea>
+                        </div>
+                        <div class="flex items-start">
+                            <input type="checkbox" id="consent" class="mt-1 mr-2" required>
+                            <label for="consent" class="text-gray-600 text-sm">I consent to having this website store my submitted information so they can respond to my inquiry.</label>
+                        </div>
+                        <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold btn-primary flex items-center justify-center">
+                            <span id="submit-text">Send Message</span>
+                            <span id="submit-loader" class="hidden w-5 h-5 ml-2 border-t-2 border-white rounded-full animate-spin"></span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="bi bi-bezier2 mr-2"></i>DigiMax
+                    </h3>
+                    <p class="text-gray-400">Your trusted digital marketing partner for growth and success. We provide comprehensive digital solutions to help your business thrive online.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition duration-300">Home</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition duration-300">About</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white transition duration-300">Services</a></li>
+                        <li><a href="#blog" class="text-gray-400 hover:text-white transition duration-300">Blog</a></li>
+                        <li><a href="#careers" class="text-gray-400 hover:text-white transition duration-300">Careers</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition duration-300">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Services</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#webdev" class="text-gray-400 hover:text-white transition duration-300">Web Development</a></li>
+                        <li><a href="#digital" class="text-gray-400 hover:text-white transition duration-300">Digital Marketing</a></li>
+                        <li><a href="#seo" class="text-gray-400 hover:text-white transition duration-300">SEO Services</a></li>
+                        <li><a href="#content" class="text-gray-400 hover:text-white transition duration-300">Content Writing</a></li>
+                        <li><a href="#graphics" class="text-gray-400 hover:text-white transition duration-300">Graphics Design</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">3D Animation</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Newsletter</h3>
+                    <p class="text-gray-400 mb-4">Subscribe to our newsletter to receive the latest updates and news.</p>
+                    <form class="space-y-4" onsubmit="handleNewsletter(event)">
+                        <div>
+                            <input type="email" placeholder="Your Email" required class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-600">
+                        </div>
+                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400">&copy; 2024 DigiMax. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Page loader
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 500);
+            }, 500);
+        });
+
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function toggleMobileSubmenu() {
+            const submenu = document.getElementById('mobile-submenu');
+            submenu.classList.toggle('hidden');
+        }
+
+        // Service Page Toggle
+        function showServicePage(serviceId) {
+            // Hide all service pages first
+            document.querySelectorAll('[id$="-page"]').forEach(page => {
+                page.classList.add('service-page-hidden');
+            });
+            
+            // Show the selected service page
+            const servicePage = document.getElementById(`${serviceId}-page`);
+            if (servicePage) {
+                servicePage.classList.remove('service-page-hidden');
+                servicePage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
+            // Scroll down a bit to show the service page
+            window.scrollBy(0, 200);
+        }
+
+        function hideServicePage() {
+            document.querySelectorAll('[id$="-page"]').forEach(page => {
+                page.classList.add('service-page-hidden');
+            });
+        }
+
+        // Form Submission
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            // Show loading state
+            document.getElementById('submit-text').innerText = 'Sending...';
+            document.getElementById('submit-loader').classList.remove('hidden');
+            
+            // Simulate form submission
+            setTimeout(() => {
+                // Hide loading state
+                document.getElementById('submit-text').innerText = 'Message Sent!';
+                document.getElementById('submit-loader').classList.add('hidden');
+                
+                // Reset form
+                event.target.reset();
+                
+                // Show success message
+                alert('Thank you for your message! Our team will get back to you soon.');
+                
+                // Reset button text
+                setTimeout(() => {
+                    document.getElementById('submit-text').innerText = 'Send Message';
+                }, 3000);
+            }, 1500);
+        }
+
+        // Newsletter Subscription
+        function handleNewsletter(event) {
+            event.preventDefault();
+            alert('Thank you for subscribing to our newsletter!');
+            event.target.reset();
+        }
+
+        // 3D Animation in Hero Section
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hero Animation
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            
+            const heroContainer = document.getElementById('3d-animation');
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(heroContainer.clientWidth, 400);
+            renderer.setClearColor(0x4f46e5, 0);
+            heroContainer.appendChild(renderer.domElement);
+            
+            // Create geometry
+            const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
+            const material = new THREE.MeshBasicMaterial({ 
+                color: 0x2563eb,
+                wireframe: true
+            });
+            const torusKnot = new THREE.Mesh(geometry, material);
+            scene.add(torusKnot);
+            
+            // Create particles
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 500;
+            const posArray = new Float32Array(particlesCount * 3);
+            
+            for (let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 50;
+            }
+            
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.1,
+                color: 0xffffff
+            });
+            
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+            
+            camera.position.z = 30;
+            
+            // Animation
+            function animate() {
+                requestAnimationFrame(animate);
+                torusKnot.rotation.x += 0.01;
+                torusKnot.rotation.y += 0.01;
+                particlesMesh.rotation.y += 0.002;
+                renderer.render(scene, camera);
+            }
+            animate();
+            
+            // Resize handler
+            window.addEventListener('resize', () => {
+                if (heroContainer) {
+                    renderer.setSize(heroContainer.clientWidth, 400);
+                    camera.aspect = heroContainer.clientWidth / 400;
+                    camera.updateProjectionMatrix();
+                }
+            });
+            
+            // Animation blocks
+            initAnimationBlock('animation-1', 0x2563eb);
+            initAnimationBlock('animation-2', 0x4f46e5);
+            initAnimationBlock('animation-3', 0x7e22ce);
+        });
+        
+        function initAnimationBlock(containerId, color) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+            
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setClearColor(color, 1);
+            container.appendChild(renderer.domElement);
+            
+            // Choose different geometries for each container
+            let geometry;
+            if (containerId === 'animation-1') {
+                geometry = new THREE.BoxGeometry(3, 3, 3);
+            } else if (containerId === 'animation-2') {
+                geometry = new THREE.SphereGeometry(2, 32, 32);
+            } else {
+                geometry = new THREE.ConeGeometry(2, 4, 32);
+            }
+            
+            const material = new THREE.MeshBasicMaterial({ 
+                color: 0xffffff,
+                wireframe: true
+            });
+            
+            const mesh = new THREE.Mesh(geometry, material);
+            scene.add(mesh);
+            
+            camera.position.z = 5;
+            
+            // Animation
+            function animate() {
+                requestAnimationFrame(animate);
+                mesh.rotation.x += 0.01;
+                mesh.rotation.y += 0.01;
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+
+        // Scroll Reveal Animations
+        document.addEventListener('DOMContentLoaded', function() {
+            ScrollReveal().reveal('.service-card', { 
+                delay: 200, 
+                distance: '20px', 
+                origin: 'bottom', 
+                interval: 100 
+            });
+            
+            ScrollReveal().reveal('.hover-zoom', { 
+                delay: 200, 
+                distance: '20px', 
+                origin: 'bottom', 
+                interval: 100 
+            });
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                if (!document.getElementById('mobile-menu').classList.contains('hidden')) {
+                    toggleMenu();
+                }
+            });
+        });
+    </script>
+<script>document.body.addEventListener('wheel', e => { if (!e.ctrlKey) return; e.preventDefault(); return }, { passive: false })</script>
+	</body>
+</html>
